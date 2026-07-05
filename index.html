@@ -1,0 +1,178 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>THERMAL/AI — AI-Powered Thermal Anomaly Detection</title>
+<meta name="description" content="An AI-powered thermal detection system that turns infrared frames into real-time heat anomaly alerts.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&family=IBM+Plex+Sans:wght@400;500;600&family=IBM+Plex+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+<div class="scanline-overlay" aria-hidden="true"></div>
+
+<header class="nav">
+  <div class="nav-inner">
+    <a href="#top" class="brand">
+      <span class="brand-mark">◉</span>
+      <span class="brand-text">THERMAL<span class="brand-slash">/</span>AI</span>
+    </a>
+    <nav class="nav-links">
+      <a href="#how">Pipeline</a>
+      <a href="#feed">Live feed</a>
+      <a href="#features">Capabilities</a>
+      <a href="#cases">Use cases</a>
+      <a class="nav-cta" href="https://github.com/" target="_blank" rel="noopener">GitHub ↗</a>
+    </nav>
+  </div>
+</header>
+
+<main id="top">
+
+  <!-- HERO -->
+  <section class="hero">
+    <div class="hero-grid">
+      <div class="hero-copy">
+        <p class="eyebrow">INFRARED · MACHINE LEARNING · REAL-TIME ALERTS</p>
+        <h1>Heat leaves<br>a signature.<br><span class="accent">We read it first.</span></h1>
+        <p class="hero-sub">An AI-powered thermal detector that watches infrared frames the way a radiologist reads a scan — separating a body, a spark, a failing motor, from ordinary background heat, in the milliseconds before it becomes a problem.</p>
+        <div class="hero-actions">
+          <a href="#how" class="btn btn-primary">See the pipeline</a>
+          <a href="https://github.com/" target="_blank" rel="noopener" class="btn btn-ghost">View source ↗</a>
+        </div>
+        <div class="hero-stats">
+          <div><span class="stat-num">±0.3°C</span><span class="stat-label">detection precision</span></div>
+          <div><span class="stat-num">&lt;120ms</span><span class="stat-label">inference latency</span></div>
+          <div><span class="stat-num">24/7</span><span class="stat-label">edge-device uptime</span></div>
+        </div>
+      </div>
+      <div class="hero-visual">
+        <canvas id="thermalCanvas" width="480" height="480" aria-label="Simulated thermal signature of a detected heat source"></canvas>
+        <div class="visual-frame">
+          <span class="frame-tag">ZONE_04</span>
+          <span class="frame-tag frame-tag--right" id="tempTag">36.8°C</span>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- CONTEXT -->
+  <section class="context">
+    <p>Thermal cameras have always shown us <em>where</em> heat is. The gap has been telling a system what that heat <em>means</em> — is that bright patch a person, a fire risk, or a bearing about to seize? THERMAL/AI closes that gap with a lightweight model trained to classify heat signatures on-device, no cloud round-trip required.</p>
+  </section>
+
+  <!-- PIPELINE -->
+  <section class="pipeline" id="how">
+    <h2>How a frame becomes an alert</h2>
+    <p class="section-sub">Four stages, running continuously, from raw sensor to decision.</p>
+
+    <div class="pipeline-track">
+      <div class="pipeline-stage">
+        <span class="stage-tag">CAPTURE</span>
+        <h3>Raw thermal frame</h3>
+        <p>A microbolometer array reads a 32×24 – 640×480 grid of temperature values, 9–60 times per second.</p>
+      </div>
+      <div class="pipeline-connector" aria-hidden="true"></div>
+      <div class="pipeline-stage">
+        <span class="stage-tag">NORMALIZE</span>
+        <h3>Calibrate & denoise</h3>
+        <p>Ambient drift is corrected, dead pixels are interpolated, and the frame is scaled into the model's expected range.</p>
+      </div>
+      <div class="pipeline-connector" aria-hidden="true"></div>
+      <div class="pipeline-stage">
+        <span class="stage-tag">INFER</span>
+        <h3>Model reads the heat</h3>
+        <p>A compact CNN segments hotspots and classifies each region: human, machine, ambient, anomaly.</p>
+      </div>
+      <div class="pipeline-connector" aria-hidden="true"></div>
+      <div class="pipeline-stage">
+        <span class="stage-tag">ACT</span>
+        <h3>Threshold & alert</h3>
+        <p>Confirmed anomalies cross a configurable threshold and trigger a webhook, log entry, or on-site alarm.</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- LIVE FEED -->
+  <section class="feed" id="feed">
+    <h2>Sample detector output</h2>
+    <p class="section-sub">A simulated readout — this is what the console shows during operation.</p>
+    <div class="feed-panel">
+      <div class="feed-header">
+        <span class="dot dot-live"></span>
+        <span>detector.log</span>
+        <span class="feed-header-right">SENSOR_ARR_02</span>
+      </div>
+      <div class="feed-body" id="feedBody"></div>
+    </div>
+  </section>
+
+  <!-- FEATURES -->
+  <section class="features" id="features">
+    <h2>Built for the field, not just the demo</h2>
+    <div class="feature-grid">
+      <div class="feature-card">
+        <h3>Edge-first inference</h3>
+        <p>Runs on Raspberry Pi–class hardware. No connectivity required for detection to function.</p>
+      </div>
+      <div class="feature-card">
+        <h3>Multi-zone tracking</h3>
+        <p>Define independent detection zones per frame, each with its own thresholds and alert rules.</p>
+      </div>
+      <div class="feature-card">
+        <h3>False-positive filtering</h3>
+        <p>Temporal smoothing across frames rejects one-off sensor noise and sun glare before an alert fires.</p>
+      </div>
+      <div class="feature-card">
+        <h3>Open alert hooks</h3>
+        <p>Plain webhook and MQTT output — wire it into whatever dashboard or siren you already run.</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- USE CASES -->
+  <section class="cases" id="cases">
+    <h2>Where a temperature difference matters</h2>
+    <div class="case-list">
+      <div class="case-row">
+        <span class="case-index">Industrial</span>
+        <p>Spot overheating motors, bearings, and electrical panels before they fail or ignite.</p>
+      </div>
+      <div class="case-row">
+        <span class="case-index">Perimeter</span>
+        <p>Detect human presence in low-light or zero-light conditions along a fence line or site boundary.</p>
+      </div>
+      <div class="case-row">
+        <span class="case-index">Wildfire</span>
+        <p>Flag small, hot, fast-spreading heat sources against a cooler forest canopy background.</p>
+      </div>
+      <div class="case-row">
+        <span class="case-index">Screening</span>
+        <p>Surface elevated skin temperature at entry points as a first-pass, non-contact check.</p>
+      </div>
+    </div>
+  </section>
+
+</main>
+
+<footer class="footer">
+  <div class="footer-inner">
+    <div>
+      <span class="brand-mark">◉</span>
+      <span class="brand-text">THERMAL<span class="brand-slash">/</span>AI</span>
+      <p class="footer-note">An open-source thermal anomaly detector. Built to run at the edge.</p>
+    </div>
+    <div class="footer-links">
+      <a href="https://github.com/" target="_blank" rel="noopener">Repository ↗</a>
+      <a href="#how">Documentation</a>
+      <a href="#feed">Live demo</a>
+    </div>
+  </div>
+</footer>
+
+<script src="script.js"></script>
+</body>
+</html>
